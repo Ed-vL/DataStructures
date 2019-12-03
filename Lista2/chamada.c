@@ -33,7 +33,6 @@ int main(){
       }
     
     }
-    
     strcpy(aux,nome[k]);
     strcpy(nome[k],nome[menor]);
     strcpy(nome[menor],aux);

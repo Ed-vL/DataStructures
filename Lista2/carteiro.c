@@ -6,11 +6,13 @@ typedef struct Node{
     int val;
     struct Node *next;
 }Node;
+
 typedef struct Table{
     int size;
     struct Node **list;
 }Table;
- Table *createHashMap(int size){
+
+Table * createHashMap(int size){
     Table *t = (Table*)malloc(sizeof(Table));
     t->size = size;
     t->list = (Node**)malloc(sizeof(Node*)*size);

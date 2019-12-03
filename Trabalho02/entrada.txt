@@ -1,0 +1,16 @@
+5 2
+caterpillar
+bird
+horse
+elefant
+herb
+herb caterpillar
+caterpillar bird
+
+3 1
+capivara
+onitorrinco
+furao
+onitorrinco capivara
+
+0 0
