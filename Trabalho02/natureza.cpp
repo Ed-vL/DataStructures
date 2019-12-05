@@ -1,69 +1,72 @@
 #include <bits/stdc++.h>
+#define vertex int
 
 using namespace std;
 
 static int cnt,cnt2;
 int pre[5000];
+typedef struct node *link;
 
-typedef struct vertex * link;
+struct graph {
+   int V; 
+   int A; 
+   link *adj; 
+};
 
-typedef struct vertex{
-  int i;
-  vertex * next; 
-} vertex;
+struct node { 
+   vertex w; 
+   link next; 
+};
 
-typedef struct graph{
-  int V;
-  link * adj;
-} graph;
+typedef struct graph *Graph;
 
-
-
-graph * GRAPHinit( int V) { 
-   graph * G = (graph *) malloc(sizeof(*G));
-   G->V = V; 
-   G->adj = (link *) malloc(sizeof(link)*V);
-   for (int v = 0; v < V; ++v){
-      G->adj[v] = NULL;
-   }
-   return G;
-}
-
-static link NEWnode( int w, link next) { 
-   link a = (link) malloc( sizeof (link));
-   a->i = w; 
+static link NEWnode( vertex w, link next) { 
+   link a = (link) malloc( sizeof (struct node));
+   a->w = w; 
    a->next = next;     
    return a;                         
 }
 
-void GRAPHinsertArc(graph * G, int v, int w) { 
-   for (link a = G->adj[v]; a != NULL; a = a->next) 
-      if (a->i == w) return;
-   G->adj[v] = NEWnode( w, G->adj[v]);
+Graph GRAPHinit( int V) { 
+   Graph G = (Graph) malloc( sizeof *G);
+   G->V = V; 
+   G->A = 0;
+   G->adj = (link *) malloc( V * sizeof (link));
+   for (vertex v = 0; v < V; ++v) 
+      G->adj[v] = NULL;
+   return G;
 }
 
-static void dfsR( graph * G, int v) 
+void GRAPHinsertArc( Graph G, vertex v, vertex w) { 
+   for (link a = G->adj[v]; a != NULL; a = a->next) 
+      if (a->w == w) return;
+   G->adj[v] = NEWnode( w, G->adj[v]);
+   G->A++;
+   cnt2++;
+}
+
+static void dfsR( Graph G, vertex v) 
 { 
    pre[v] = cnt++;
-   cnt2++; 
+   //cout << "pre: " << pre[v] << " pre+1: " << pre[v+1] << "\n";
    for (link a = G->adj[v]; a != NULL; a = a->next) {
-      int w = a->i;
-      //cout <<"elemento: "<< w << '\n';
+      vertex w = a->w;
+      //cout << "w: " << w << "\n";
       if (pre[w] == -1)
          dfsR( G, w); 
    }
 }
 
-void GRAPHdfs( graph * G) 
+void GRAPHdfs( Graph G) 
 { 
    cnt = 0;
-   cnt2 = 0;
-   for (int v = 0; v < G->V; ++v) 
+   for (vertex v = 0; v < G->V; ++v) 
       pre[v] = -1;
-   for (int v = 0; v < G->V; ++v)
+   for (vertex v = 0; v < cnt2; ++v)
       if (pre[v] == -1) 
-         dfsR( G, v);
+         dfsR( G, v); // começa nova etapa
 }
+
 
 int main(){
   int criaturas, edges,v,w,aux = 0;
@@ -91,8 +94,8 @@ int main(){
       GRAPHinsertArc(cadeia,v,w);
     }
     GRAPHdfs(cadeia);
-    for (int v = 0; v < cadeia->V; ++v)
-    cout << pre[v] << '\n';
+    //for(int v = 0; v < 10;v++)
+    cout << pre[cnt2] << '\n';
     cin >> criaturas;
     cin >> edges;
   }
