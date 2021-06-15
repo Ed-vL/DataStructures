@@ -5,12 +5,17 @@ int main(){
     printf("Diga, a Tay é boba? Sim (s) ou Não (n)?\n");
     char ans;
     scanf("%c",&ans);
-    if(strcmp(&ans,"s") == 0){
+    switch (ans)
+    {
+    case 's':
         printf("A Tay é boba\n");
-    } else if(strcmp(&ans,"n") == 0){
+        break;
+    case 'n':
         printf("Errado, a Tay é boba sim\n");
-    } else {
+        break;
+    default:
         printf("Só s ou n, tu é bobo também\n");
+        break;
     }
     return 0;
 }
